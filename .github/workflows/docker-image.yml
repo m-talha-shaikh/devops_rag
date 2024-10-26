@@ -1,0 +1,28 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Login Dockerhub
+      env:
+        DOCKER_USERNAME: "bluefincake"
+        DOCKER_PASSWORD: "devopscake"
+      run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      
+    - name: Build the Docker image
+      run: docker build -t bluefincake/devops_rag:latest .
+
+    - name: Push to Dockerhub
+      run: docker push bluefincake/devops_rag:latest
