@@ -30,6 +30,13 @@ const fakeApiCall = (question) => {
 
 
 // Routes
+
+// Route for the root path
+app.get('/', (req, res) => {
+  res.json({ message: 'Hello, Rag!' });
+});
+
+
 app.post('/api/chat', async (req, res) => {
   const { question } = req.body; // Get question from the request body
 
