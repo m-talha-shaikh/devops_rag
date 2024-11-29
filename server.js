@@ -7,12 +7,16 @@ const app = express();
 const corsOptions = {
   origin: 'http://localhost:5173',  // Allow requests from this origin
   methods: ['GET', 'POST'],        // Allow these methods
-  allowedHeaders: ['Content-Type'], // Allow the Content-Type header
+  allowedHeaders: ['Content-Type'],
+  credentials: true
 };
 
 app.use(cors(corsOptions)); // Enable CORS with the above options
 
 app.use(express.json()); // Parse JSON bodies
+
+app.options('*', cors(corsOptions)); // Handle preflight requests
+
 
 
 let counter = 0; // Initialize counter
