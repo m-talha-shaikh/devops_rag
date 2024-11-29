@@ -34,7 +34,7 @@ app.post('/api/chat', async (req, res) => {
   const { question } = req.body; // Get question from the request body
 
   if (!question) {
-    return res.status(400).json({ error: 'Question is required' });
+    return res.status(400).json({ error: 'Questions are required' });
   }
 
   try {
