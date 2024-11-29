@@ -1,10 +1,19 @@
 const express = require('express');
+
 const cors = require('cors');
 const app = express();
 
-// Middleware
-app.use(cors()); // Allow cross-origin requests
+// CORS middleware setup
+const corsOptions = {
+  origin: 'http://localhost:5173',  // Allow requests from this origin
+  methods: ['GET', 'POST'],        // Allow these methods
+  allowedHeaders: ['Content-Type'], // Allow the Content-Type header
+};
+
+app.use(cors(corsOptions)); // Enable CORS with the above options
+
 app.use(express.json()); // Parse JSON bodies
+
 
 let counter = 0; // Initialize counter
 
