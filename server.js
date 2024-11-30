@@ -5,11 +5,11 @@ const app = express();
 
 // CORS middleware setup
 const corsOptions = {
-  origin: 'http://localhost:5173',  // Allow requests from this origin
-  methods: ['GET', 'POST'],        // Allow these methods
-  allowedHeaders: ['Content-Type'],
-  credentials: true
+  origin: '*',  // Allow requests from any origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'],  // Allow all common HTTP methods
+  allowedHeaders: '*',  // Allow all headers
 };
+
 
 app.use(cors(corsOptions)); // Enable CORS with the above options
 
