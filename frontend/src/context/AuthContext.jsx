@@ -86,6 +86,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('token');
         setUser(null);
         setIsAuthenticated(false);
+        window.location.href = '/';
     } catch (error) {
         console.error('Sign Out Error', error);
     }
