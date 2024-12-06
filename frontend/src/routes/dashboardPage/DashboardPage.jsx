@@ -8,14 +8,15 @@ const DashboardPage = () => {
 
   // Fake API call to backend
   const fetchBotResponse = async (question) => {
-    try {
-      const response = await fetch('http://ec2-44-202-135-7.compute-1.amazonaws.com/api/chat', {
+     try {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/chat`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({ question }),
       });
+
 
       const data = await response.json();
       return data.answer;

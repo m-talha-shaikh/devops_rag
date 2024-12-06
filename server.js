@@ -1,72 +1,145 @@
 const express = require('express');
-
 const cors = require('cors');
-const app = express();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
 
-// CORS middleware setup
-const corsOptions = {
+dotenv.config();
+
+const app = express();
+app.use(cors({
   origin: 'http://localhost:5173',  // Allow requests from this origin
-  methods: ['GET', 'POST'],        // Allow these methods
+  methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
   credentials: true
+}));
+
+app.use(express.json());  // Parse JSON bodies
+app.options('*', cors()); // Handle preflight requests
+
+// Dummy in-memory storage (Use a DB in production)
+const users = [
+  {
+    fullName: 'Admin',
+    email: 'admin@yahoo.com',
+    password: bcrypt.hashSync('admin123', 10) // Synchronously hash the password
+  }
+];
+let counter = 0;
+
+// Secret key for JWT
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';  // Change this for production
+
+// Middleware to check if the user is authenticated
+const authenticateToken = (req, res, next) => {
+  // const token = req.headers['authorization']?.split(' ')[1]; // Extract the token from the 'Authorization' header
+  // console.log(req.headers)
+  // console.log(token)
+  // if (!token) {
+  //   return res.status(401).json({ error: 'Authentication token required' });
+  // }
+
+  // jwt.verify(token, JWT_SECRET, (err, user) => {
+  //   if (err) {
+  //     return res.status(403).json({ error: 'Invalid or expired token' });
+  //   }
+  //   req.user = user;  // Attach the user info to the request object
+  //   next();
+  // });
+  next();
 };
 
-app.use(cors(corsOptions)); // Enable CORS with the above options
+// Route to check authentication status
+app.get('/api/auth/check', (req, res) => {
+  res.json({ isAuthenticated: true, user: req.user });
+});
 
-app.use(express.json()); // Parse JSON bodies
+// Sign Up Route
+app.post('/api/auth/signup', async (req, res) => {
 
-app.options('*', cors(corsOptions)); // Handle preflight requests
+  console.log(req.body)
 
+  const { fullName, email, password } = req.body;
 
+  // if (!fullName || !email || !password) {
+  //   return res.status(400).json({ error: 'Full name, email, and password are required' });
+  // }
 
-let counter = 0; // Initialize counter
+  // Check if the user already exists
+  const existingUser = users.find(user => user.email === email);
+  if (existingUser) {
+    return res.status(400).json({ error: 'User already exists' });
+  }
 
-// 1. How can I request access to the HR portal?
-// 2. What is HBL's policy on personal use of company-issued laptops?
-// 3. How do I submit an expense report for a business trip?
+  // Hash the password before saving it
+  const hashedPassword = await bcrypt.hash(password, 10);
+  // Store the user data
+  const newUser = { fullName, email, password: hashedPassword };
+  users.push(newUser);
+  // Return a success message
+  const token = jwt.sign({ email, fullName }, JWT_SECRET, { expiresIn: '1h' });
+  res.status(201).json({ message: 'User created successfully', user: { fullName, email }, token });
+});
 
+// Sign In Route
+app.post('/api/auth/signin', async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email and password are required' });
+  }
+
+  // Find user by email
+  const user = users.find(user => user.email === email);
+  if (!user) {
+    return res.status(400).json({ error: 'Invalid email or password' });
+  }
+
+  // Check if password matches
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+  if (!isPasswordValid) {
+    return res.status(400).json({ error: 'Invalid email or password' });
+  }
+
+  // Generate a JWT token
+  const token = jwt.sign({ email: user.email, fullName: user.fullName }, JWT_SECRET, { expiresIn: '1h' });
+
+  // Return the token
+  res.json({ token });
+});
+
+// Chat API (for your chatbot)
 const fakeApiCall = (question) => {
   const responses = [
-    "To request access to the internal HR portal, please submit a request through the HBL Employee Access Management System. You’ll need to specify your employee ID and the reason for access. Once submitted, your manager will review the request and approve it if appropriate. If you face any issues, contact the IT support team via the internal helpdesk for further assistance.",
-    "According to HBL’s internal IT policy, company-issued laptops are primarily for work-related tasks. Personal use should be minimal and not interfere with professional responsibilities. For any personal usage, ensure that no sensitive or proprietary bank data is accessed, stored, or shared. If you need to install personal software, please submit a request to IT for approval to ensure compliance with security protocols.",
-    "To submit an expense report for a business trip, log into the HBL Expense Management Portal and upload all receipts in the required format. Make sure to categorize each expense accurately, providing clear descriptions and cost breakdowns. Once submitted, your direct supervisor will review and approve it before it’s sent to the finance team for final processing. If you encounter any issues, contact the Finance Helpdesk."
+    "To request access to the internal HR portal, please submit a request...",
+    "According to HBL’s internal IT policy, company-issued laptops...",
+    "To submit an expense report for a business trip, log into the HBL Expense Management Portal..."
   ];
 
-  // Return the current response based on the counter and increment the counter
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(responses[counter]);
-      counter = (counter + 1) % 3; // Cycle counter between 0, 1, and 2
-    }, 1000); // Simulate delay of 1 second
+      counter = (counter + 1) % 3;
+    }, 1000);
   });
 };
 
-
-// Routes
-
-// Route for the root path
-app.get('/', (req, res) => {
-  res.json({ message: 'Hello, Rag!' });
-});
-
-
-app.post('/api/chat', async (req, res) => {
-  const { question } = req.body; // Get question from the request body
+app.post('/api/chat', authenticateToken, async (req, res) => {
+  const { question } = req.body;
 
   if (!question) {
-    return res.status(400).json({ error: 'Questions are required' });
+    return res.status(400).json({ error: 'Question is required' });
   }
 
   try {
-    // Simulate getting a response from an AI or chatbot service
     const answer = await fakeApiCall(question);
-    return res.json({ answer }); // Send back the response
+    return res.json({ answer });
   } catch (error) {
     return res.status(500).json({ error: 'Something went wrong' });
   }
 });
 
-// Start the server and bind it to all network interfaces (0.0.0.0)
+// Start the server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on http://0.0.0.0:${PORT}`);

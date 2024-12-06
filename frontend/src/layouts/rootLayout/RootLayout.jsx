@@ -1,38 +1,35 @@
-import { Link, Outlet } from 'react-router-dom'
-import './rootLayout.css'
-import { ClerkProvider } from "@clerk/clerk-react";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
-
-
-// Importing publishable key
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
-
-if (!PUBLISHABLE_KEY) {
-  throw new Error("Missing Publishable Key")
-}
+import { Link, Outlet } from 'react-router-dom';
+import './rootLayout.css';
+import { useAuth } from '../../context/AuthContext';  // Import useAuth hook
 
 const RootLayout = () => {
-  return (
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+  const { user, signOut, isAuthenticated } = useAuth();
 
+  return (
     <div className='rootLayout'>
-        <header>
-            <Link to="/" className='logo'>
-            <img src="/logo.png" alt="logo" />
-            <span>HBL Knowledge AI</span>
-            </Link>
-            <div className="user">
-              <SignedIn>
-                <UserButton />
-              </SignedIn>
+      <header>
+        <Link to="/" className='logo'>
+          <img src="/logo.png" alt="logo" />
+          <span>HBL Knowledge AI</span>
+        </Link>
+        <div className="user">
+          {isAuthenticated ? (
+            <div>
+              <span>{user?.fullName}</span>
+              <button onClick={signOut}>Sign Out</button>
             </div>
-        </header>
-        <main>
-            <Outlet/>
-        </main>
+          ) : (
+            <div>
+              <Link to="/sign-in">Sign In</Link> | <Link to="/sign-up">Sign Up</Link>
+            </div>
+          )}
+        </div>
+      </header>
+      <main>
+        <Outlet />
+      </main>
     </div>
-    </ClerkProvider>
   );
 };
 
-export default RootLayout
+export default RootLayout;
