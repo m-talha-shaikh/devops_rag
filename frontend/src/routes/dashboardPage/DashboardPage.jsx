@@ -52,7 +52,7 @@ const DashboardPage = () => {
         { type: 'bot', text: apiResponse }, // Add the full bot response
       ]);
       setLoading(false); // Stop the "..." animation
-    }, 1500); // Delay for 1.5 seconds before displaying the actual response
+    }, 100); // Delay for 1.5 seconds before displaying the actual response
 
     setInput('');
   };
@@ -157,7 +157,7 @@ export default DashboardPage;
 //         { type: 'bot', text: apiResponse }, // Add the full bot response
 //       ]);
 //       setLoading(false); // Stop the "..." animation
-//     }, 1500); // Delay for 1.5 seconds before displaying the actual response
+//     }, 100); // Delay for 1.5 seconds before displaying the actual response
 
 //     setInput('');
 //     setImage(null); // Clear image after submission
