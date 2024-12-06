@@ -155,7 +155,7 @@ app.post('/api/chat', authenticateToken, async (req, res) => {
 
   try {
     // Send the question to the Python API
-    const response = await axios.post('http://34.201.7.49/query/', {
+    const response = await axios.post('http://44.222.146.47/query/', {
       query: question,  // Send the question as 'query' in the body
     });
 
