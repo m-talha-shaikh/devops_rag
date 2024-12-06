@@ -169,6 +169,7 @@ export const AuthProvider = ({ children }) => {
 
   const signIn = async (email, password) => {
     try {
+      console.log(import.meta.env.VITE_API_BASE_URL)
       const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/signin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
