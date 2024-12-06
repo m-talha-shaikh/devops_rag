@@ -139,6 +139,12 @@ const fakeApiCall = (question) => {
 //   }
 // });
 
+// New endpoint for / route
+app.get('/', (req, res) => {
+  res.send('hello rag app');
+});
+
+
 // Chat API route to forward the question to the Python API
 app.post('/api/chat', authenticateToken, async (req, res) => {
   const { question } = req.body;
