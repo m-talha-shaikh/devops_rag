@@ -14,14 +14,15 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:5173',  // Allow requests from this origin
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type'],
-  credentials: true
+  origin: '*',  // Allow requests from any origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],  // Allow all common HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'X-Custom-Header'],  // Allow common headers
+  credentials: true,  // Allow credentials (cookies, authorization headers, etc.)
+  preflightContinue: true,  // Pass the preflight response to the next handler
+  optionsSuccessStatus: 204  // Status code for successful preflight requests
 }));
 
 app.use(express.json());  // Parse JSON bodies
-app.options('*', cors()); // Handle preflight requests
 
 // Connect to MongoDB Atlas
 mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://quantumxfyp:dP2igGBHY8QTQwMj@cluster0.8vlen.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
