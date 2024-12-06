@@ -43,10 +43,13 @@ const DashboardPage = () => {
     return new Promise((resolve) => {
       let i = 0;
       const interval = setInterval(() => {
-        setMessages((prevMessages) => [
-          ...prevMessages.slice(0, prevMessages.length - 1),
-          { type: 'bot', text: text.slice(0, i + 1) },
-        ]);
+        setMessages((prevMessages) => {
+          const safePrevMessages = Array.isArray(prevMessages) ? prevMessages : [];
+          return [
+            ...safePrevMessages,
+            { type: 'bot', text: text.slice(0, i + 1) },
+          ];
+        });
         i++;
         if (i === text.length) {
           clearInterval(interval);
@@ -55,6 +58,7 @@ const DashboardPage = () => {
       }, delay);
     });
   };
+  
 
   // Handle form submission
   const handleSubmit = async (e) => {
