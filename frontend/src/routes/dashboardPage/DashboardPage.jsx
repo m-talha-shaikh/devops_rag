@@ -10,9 +10,12 @@ const DashboardPage = () => {
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
   const [imageText, setImageText] = useState('');
-  
+
   // Format text for HTML rendering (newlines and quotes)
   const formatText = (text) => {
+    if (typeof text === 'object') {
+      return JSON.stringify(text, null, 2); // Stringify object responses for display
+    }
     return text.replace(/\n/g, '<br />').replace(/\"/g, '&quot;');
   };
 
@@ -27,38 +30,13 @@ const DashboardPage = () => {
         body: JSON.stringify({ question }),
       });
 
-     const data = await response.json();
-   
-      return data;
+      const data = await response.json();
+      return data['answer'];
     } catch (error) {
       console.error('Error fetching response:', error);
       return 'Sorry, there was an error processing your request.';
     }
-   
-
   };
-
-  // Typewriter effect function
-  const typewriterEffect = (text, delay = 10) => {
-    return new Promise((resolve) => {
-      let i = 0;
-      const interval = setInterval(() => {
-        setMessages((prevMessages) => {
-          const safePrevMessages = Array.isArray(prevMessages) ? prevMessages : [];
-          return [
-            ...safePrevMessages,
-            { type: 'bot', text: text.slice(0, i + 1) },
-          ];
-        });
-        i++;
-        if (i === text.length) {
-          clearInterval(interval);
-          resolve();
-        }
-      }, delay);
-    });
-  };
-  
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -74,14 +52,11 @@ const DashboardPage = () => {
     setInput('');
     const apiResponse = await fetchBotResponse(userMessage);
 
-    // Display temporary "..." loading message
+    // Display bot response directly
     setMessages((prevMessages) => [
       ...prevMessages,
-      { type: 'bot', text: '...' },
+      { type: 'bot', text: apiResponse },
     ]);
-
-    // Use typewriter effect for bot response
-    await typewriterEffect(apiResponse);
 
     setLoading(false);
     setInput('');
@@ -129,14 +104,8 @@ const DashboardPage = () => {
       const apiResponse = await fetchBotResponse(text);
       setMessages((prevMessages) => [
         ...prevMessages,
-        { type: 'bot', text: '...' },
+        { type: 'bot', text: apiResponse },
       ]);
-      setTimeout(() => {
-        setMessages((prevMessages) => [
-          ...prevMessages.slice(0, prevMessages.length - 1),
-          { type: 'bot', text: apiResponse },
-        ]);
-      }, 1000);
     } catch (error) {
       console.error('Error sending to backend:', error);
     }
@@ -150,7 +119,7 @@ const DashboardPage = () => {
             <div
               key={index}
               className={msg.type === 'user' ? 'userMessage' : 'botMessage'}
-              dangerouslySetInnerHTML={{ __html: formatText(msg.text) }}
+              dangerouslySetInnerHTML={{ __html: formatText(msg.text || '') }} // Ensure msg.text is a valid string
             />
           ))}
         </div>
