@@ -1,74 +1,219 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;500&display=swap');
+
 .chatList {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: white;
-  border-radius: 10px;
-  padding: 5px 5px;
-
-  hr {
-    border: none;
-    height: 2px;
-    background-color: #0d6d6f;
-    opacity: 0.5;
-    border-radius: 5px;
-    margin: 20px 0px;
-  }
-
-  .title {
-    font-weight: 600;
-    font-size: 10px;
-    margin-bottom: 10px;
-  }
-
-  .list {
-    display: flex;
-    flex-direction: column;
-    overflow: scroll;
-  }
-
-  .fileupload {
-    margin-left: 10px; 
-    cursor: pointer;
-  }
- 
-  .attachment-icon {
-    width: 12px; 
-    height: 18px; 
-    margin-left: 5px; 
-    vertical-align: middle; 
-    cursor: pointer;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-  a {
-    padding: 10px;
-    border-radius: 10px;
+hr {
+  border: none;
+  height: 2px;
+  background-color: #0d6d6f;
+  opacity: 0.2;
+  border-radius: 5px;
+  margin: 20px 0;
+}
 
-    &:hover {
-      background-color: #a6c9d1;
-    }
+.title {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.create-chat {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.new-chat-button {
+  padding: 12px 25px;
+  background-color: #196858;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s ease;
+  font-family: 'Roboto', sans-serif;
+}
+
+.new-chat-button:hover {
+  background-color: #9ad1b8;
+  transform: translateY(-2px);
+}
+
+.fileupload {
+  margin-left: 10px; 
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.attachment-icon {
+  width: 16px; 
+  height: 16px; 
+  margin-left: 8px; 
+  vertical-align: middle; 
+  cursor: pointer;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.chat-item {
+  padding: 12px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s ease;
+  font-family: 'Roboto', sans-serif;
+}
+
+.chat-item:hover {
+  background-color: #e3e3e3;
+  transform: translateX(5px);
+}
+
+.support {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+.support img {
+  width: 24px;
+  height: 24px;
+}
+
+.texts {
+  display: flex;
+  flex-direction: column;
+
+  span {
+    font-weight: 600;
+    color: #2575fc;
   }
+}
+/* Modal Styles */
+/* Loading Screen Styles */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;  /* Ensure it covers other elements */
+}
 
-  .support {
-      margin-top: auto;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 12px;
-  
-      img {
-        width: 24px;
-        height: 24px;
-      }
-  
-      .texts {
-        display: flex;
-        flex-direction: column;
+.spinner {
+  border: 4px solid #f3f3f3;  /* Light background color for the spinner */
+  border-top: 4px solid #0d6d6f;  /* Blue color for the spinner */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+}
 
-        span {
-            font-weight: 600;
-          }
-        }
-      }
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;  /* Ensures modal appears above other content */
+}
+
+.modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  position: relative; /* To position the close button inside the modal */
+}
+
+.modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  position: relative; /* To position the close button inside the modal */
+}
+.modal-content h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #0d6d6f;
+}
+.modal-content p {
+  font-size: 1rem;
+  color: #333;
+}
+
+.fileupload {
+  margin-left: 10px; 
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.attachment-icon {
+  width: 16px; 
+  height: 16px; 
+  margin-left: 8px; 
+  vertical-align: middle; 
+  cursor: pointer;
+}
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #ff0000;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+  color: #ff4d4d;
 }

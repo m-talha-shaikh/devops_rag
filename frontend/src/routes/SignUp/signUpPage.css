@@ -1,6 +1,92 @@
-.signUpPage{
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* Centering the SignUpPage in the viewport */
+.signUpPage {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, #ffffff, #ffffff); /* Background gradient */
+  margin: 0;  /* Remove default margin */
+}
+
+/* The form container */
+.signUpContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.9); /* Slight transparency for readability */
+  padding: 40px 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #100e0e;
+  font-weight: 600;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+input {
+  padding: 12px;
+  margin: 10px 0;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  border-color: #2575fc;
+  box-shadow: 0 0 8px rgba(37, 117, 252, 0.5);
+}
+
+button {
+  padding: 12px;
+  font-size: 1.1rem;
+  color: #fff;
+  background-color: #0d6d6f;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #c7c2cb;
+  transform: translateY(-3px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 10px;
+  text-align: center;
+}
+
+@media (max-width: 500px) {
+  .signUpContainer {
+    padding: 30px 20px;
   }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  input, button {
+    font-size: 0.95rem;
+  }
+}

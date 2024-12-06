@@ -23,6 +23,7 @@ const SignInPage = () => {
 
   return (
     <div className='signInPage'>
+      
       <h2>Sign In</h2>
       <form onSubmit={handleSubmit}>
         <input

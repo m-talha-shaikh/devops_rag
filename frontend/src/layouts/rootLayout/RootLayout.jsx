@@ -1,26 +1,26 @@
 import { Link, Outlet } from 'react-router-dom';
 import './rootLayout.css';
-import { useAuth } from '../../context/AuthContext';  // Import useAuth hook
+import { useAuth } from '../../context/AuthContext';
 
 const RootLayout = () => {
   const { user, signOut, isAuthenticated } = useAuth();
 
   return (
-    <div className='rootLayout'>
+    <div className="rootLayout">
       <header>
-        <Link to="/" className='logo'>
-          <img src="/logo.png" alt="logo" />
-          <span>HBL Knowledge AI</span>
+        <Link to="/" className="logo">
+          <h3 >TradeMate</h3>
         </Link>
         <div className="user">
           {isAuthenticated ? (
-            <div>
+            <div className="user-info">
               <span>{user?.fullName}</span>
-              <button onClick={signOut}>Sign Out</button>
+              <button onClick={signOut} className="auth-btn">Sign Out</button>
             </div>
           ) : (
-            <div>
-              <Link to="/sign-in">Sign In</Link> | <Link to="/sign-up">Sign Up</Link>
+            <div className="auth-links">
+              <Link to="/sign-in" className="auth-link">Sign In</Link> | 
+              <Link to="/sign-up" className="auth-link">Sign Up</Link>
             </div>
           )}
         </div>

@@ -1,30 +1,105 @@
+/* Root Layout Styles */
 .rootLayout {
     padding: 16px 64px;
     height: 100vh;
     display: flex;
     flex-direction: column;
-
-    header{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        .logo {
-            display: flex;
-            align-items: center;
-            font-weight: bold;
-            gap: 8px;
-
-            img {
-                width: 32px;
-                height: 32px;
-            }
-        }
-    }
-
-    main {
-        /*background-color: aqua;*/
-        flex: 1;
-        overflow: hidden;
-    }
+  
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+     
+     /* Logo Container */
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;  /* Remove underline from link */
+  font-family: 'Roboto', sans-serif;  /* Use modern font */
+  color: #000102;  /* Brand color */
+  font-weight: 600;
+  font-size: 2rem;
+  transition: all 0.3s ease;
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-color: rgba(37, 117, 252, 0.1);  /* Light background for logo */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
+/* Logo Text */
+.logo h3 {
+  margin: 0;
+  font-size: 2.2rem;
+  color: #12715e; /* Bright color for the logo */
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+/* Hover Effect for Logo */
+.logo:hover {
+  background-color: #196858;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover Effect for Logo Text */
+.logo:hover h3 {
+  color: #c3ffef;  /* Change text color on hover */
+  transform: scale(1.1);  /* Slightly enlarge the text */
+}
+  
+      .auth-links {
+        display: flex;
+        gap: 12px;
+      }
+  
+      .auth-link {
+        color: #8298b0; /* Blue color for the link */
+        text-decoration: none; /* Remove underline by default */
+        font-size: 16px; /* Standard font size */
+        font-weight: 500; /* Medium font weight for readability */
+        transition: color 0.3s ease, border-bottom 0.3s ease; /* Smooth transition for hover effects */
+      }
+  
+      .auth-link:hover {
+        color: #46678b; /* Darker blue on hover */
+        border-bottom: 2px solid #0056b3; /* Underline effect on hover */
+      }
+    }
+  
+    main {
+      /*background-color: aqua;*/
+      flex: 1;
+      overflow: hidden;
+    }
+  }
+  
+  /* Button Style */
+  .auth-btn {
+    background-color: #196858; /* Primary button color */
+    color: white; /* Text color */
+    font-size: 16px; /* Font size */
+    font-weight: 500; /* Medium font weight */
+    padding: 12px 24px; /* Vertical and horizontal padding */
+    border: none; /* Remove default border */
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition effects */
+  }
+  
+  .auth-btn:hover {
+    background-color: #449488; /* Darker blue on hover */
+    transform: scale(1.05); /* Slight scale-up on hover */
+  }
+  
+  .auth-btn:focus {
+    outline: none; /* Remove focus outline */
+    box-shadow: 0 0 0 3px rgba(0, 98, 204, 0.5); /* Focus state with a soft border */
+  }
+  
+  .auth-btn:disabled {
+    background-color: #b0d5ff; /* Light blue when disabled */
+    color: #c4c4c4; /* Gray text when disabled */
+    cursor: not-allowed; /* Disable the cursor when the button is disabled */
+  }
+  
