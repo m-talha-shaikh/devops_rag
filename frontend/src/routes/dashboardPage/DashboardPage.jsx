@@ -22,21 +22,27 @@ const DashboardPage = () => {
   // API call to backend
   const fetchBotResponse = async (question) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/chat`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ question }),
-      });
-
-      const data = await response.json();
-      return data['answer'];
+      const data = `Here are some P2P-related questions based on the provided context:
+  
+  1. What is the main advantage of being a verified merchant on the P2P platform?
+  2. How much discount can verified merchants enjoy on basic fee rates in all fiat markets?
+  3. What is the benefit of having a dedicated client support as a P2Pro merchant?
+  4. What is the main requirement to apply for a PRO merchant account on the P2P platform?
+  5. How does the P2P platform ensure a reliable trading experience for all users?
+  6. What is the main difference between a verified merchant and a regular merchant on the P2P platform?
+  7. How does the P2P platform help merchants manage their business hours and ads?
+  8. What is the benefit of having a "verified badge" next to a P2P nickname?
+  9. How does the P2P platform support hundreds of payment methods and fiat currencies?
+  10. What is the main goal of the P2P platform's customer support?
+  
+  Let me know if you want me to answer any of these questions or if you'd like me to generate more questions.`;
+      return data;
     } catch (error) {
       console.error('Error fetching response:', error);
       return 'Sorry, there was an error processing your request.';
     }
   };
+  
 
   // Handle form submission
   const handleSubmit = async (e) => {
